@@ -49,7 +49,7 @@ class WhiteBoard:
             # else return most recent states client current to the latest
             if (state == 0) or ((self.curState - state) > MAX_STATES): 
                 print("return board")
-                return self.pixels
+                return {str(self.curState):self.pixels, "is_whole_board":True}
             elif self.curState == 1:
                 return {}
             else: 
