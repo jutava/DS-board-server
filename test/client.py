@@ -21,3 +21,8 @@ payload = {"state":1}
 r = requests.get(url = URL, params=payload) 
 data = r.text
 print("GET Returned:",data)
+
+payload = {"state":4}
+r = requests.get(url = URL, params=payload) 
+data = r.text
+print("GET Returned:",data)

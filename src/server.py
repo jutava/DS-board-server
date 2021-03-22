@@ -4,7 +4,7 @@ from urllib.parse import urlparse, parse_qs
 #import logging
 
 PORT = 8079
-DIMENSION = 500
+DIMENSION = 50
 
 FORMAT = 'utf-8'
 
@@ -50,7 +50,7 @@ class WhiteBoard:
             if (state == 0) or ((self.curState - state) > MAX_STATES): 
                 print("return board")
                 return {str(self.curState):self.pixels, "is_whole_board":True}
-            elif self.curState == 1:
+            elif self.curState == 1 or state == self.curState: # empty board or client state is curState
                 return {}
             else: 
                 stop = self.curState if self.curState < MAX_STATES else MAX_STATES
@@ -60,11 +60,6 @@ class WhiteBoard:
                 return subset
 
 class myServer(BaseHTTPRequestHandler):
-    # Redefined 
-    #def __init__(self, request, client_address, server):
-    #    self.board = WhiteBoard()
-    #    super().__init__(request, client_address, server)
-
     def _set_get_response(self):
         self.send_response(200)
         self.send_header('content-type', 'text/html')
