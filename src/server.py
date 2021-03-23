@@ -30,7 +30,7 @@ class WhiteBoard:
         # Check dictionary for MAX_STATES and remove the oldest entry if needed
         stateKeys = list(self.recentStates.keys())
         if self.curState >= MAX_STATES:
-            self.recentStates.pop(stateKeys[-1])
+            self.recentStates.pop(stateKeys[0])
         self.curState = self.curState + 1
         self.recentStates[str(self.curState)] = {"x": x, "y": y, "color": color}
         print(f"State:{self.curState}, POST: ({x},{y}): {color}")
@@ -42,10 +42,10 @@ class WhiteBoard:
         print("GET:", state)
         print("Latest state:",self.curState)
         if EVAL == "BAD":
-            return self.pixels
+            return {str(self.curState):self.pixels, "is_whole_board":True}
         if EVAL == "BETTER":
             # if client is new or it is too far behind
-            # --> return full boardpopulation
+            # --> return board
             # else return most recent states client current to the latest
             if (state == 0) or ((self.curState - state) > MAX_STATES): 
                 print("return board")
@@ -53,7 +53,7 @@ class WhiteBoard:
             elif self.curState == 1 or state == self.curState: # empty board or client state is curState
                 return {}
             else: 
-                stop = self.curState if self.curState < MAX_STATES else MAX_STATES
+                stop = self.curState
                 print(f"state:{state} - stop:{stop}")
                 subset = {str(key): self.recentStates[str(key)] for key in list(range(state+1,stop+1))}
                 print("return", subset)
