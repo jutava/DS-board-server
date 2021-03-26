@@ -1,7 +1,7 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
 from urllib.parse import urlparse, parse_qs
-#import logging
+import sys
 
 PORT = 8079
 DIMENSION = 50
@@ -79,7 +79,9 @@ class myServer(BaseHTTPRequestHandler):
         #logging.info("")
         self._set_get_response()
         global board
-        self.wfile.write(json.dumps(board.getPixels(state)).encode(FORMAT))
+        pixels = json.dumps(board.getPixels(state)).encode(FORMAT)
+        print("MESSAGE SIZE", sys.getsizeof(pixels))
+        self.wfile.write(pixels)
 
     def do_POST(self):
         content_length = int(self.headers['content-length'])
